@@ -13,10 +13,7 @@ A simple, lightweight media player for Linux systems with CD/DVD playback suppor
 
 ## Requirements
 
-- Python 3
-- VLC media player
-- python3-tk
-- python-vlc
+- Python 3 (uses system default media player)
 
 ## Installation
 

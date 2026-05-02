@@ -1,0 +1,19 @@
+To deploy to audio.leokontakt.de:
+
+1. Upload these files to your web server:
+   - /home/leo/viedio/audio_server/audio_files/index.html
+   - /home/leo/viedio/audio_server/audio_files/SoundHelix-Song-1.mp3
+
+2. Point your domain's DNS A record to your server's IP
+
+3. Configure nginx (if using) at /etc/nginx/sites-available/audio.leokontakt.de:
+   server {
+       listen 80;
+       server_name audio.leokontakt.de;
+       root /var/www/audio.leokontakt.de;
+       index index.html;
+   }
+
+4. Add more audio files to the directory and update index.html
+
+Your server files are ready at: /home/leo/viedio/audio_server/audio_files/

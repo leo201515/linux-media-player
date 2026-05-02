@@ -1,20 +1,14 @@
 #!/usr/bin/env python3
 import tkinter as tk
 from tkinter import ttk, filedialog, messagebox
-import vlc
-import os
 import subprocess
-from pathlib import Path
+import os
 
 class MediaPlayer:
     def __init__(self, root):
         self.root = root
         self.root.title("Media Player")
-        self.root.geometry("800x600")
-        
-        self.instance = vlc.Instance()
-        self.player = self.instance.media_player_new()
-        
+        self.root.geometry("600x400")
         self.setup_ui()
         
     def setup_ui(self):
@@ -29,30 +23,20 @@ class MediaPlayer:
         file_menu.add_separator()
         file_menu.add_command(label="Exit", command=self.root.quit)
         
-        self.video_frame = tk.Frame(self.root, bg='black')
-        self.video_frame.pack(fill=tk.BOTH, expand=True)
+        main_frame = tk.Frame(self.root, bg='black')
+        main_frame.pack(fill=tk.BOTH, expand=True)
         
-        control_frame = tk.Frame(self.root)
-        control_frame.pack(fill=tk.X, padx=5, pady=5)
+        label = tk.Label(main_frame, text="Media Player\nSelect a file or disc to play", 
+                        fg='white', bg='black', font=('Arial', 16))
+        label.pack(expand=True)
         
-        ttk.Button(control_frame, text="Play", command=self.play).pack(side=tk.LEFT, padx=2)
-        ttk.Button(control_frame, text="Pause", command=self.pause).pack(side=tk.LEFT, padx=2)
-        ttk.Button(control_frame, text="Stop", command=self.stop).pack(side=tk.LEFT, padx=2)
+        btn_frame = tk.Frame(self.root)
+        btn_frame.pack(pady=10)
         
-        self.volume = tk.Scale(control_frame, from_=0, to=100, orient=tk.HORIZONTAL, label="Volume")
-        self.volume.set(70)
-        self.volume.pack(side=tk.RIGHT, padx=5)
-        self.volume.bind("<Motion>", self.set_volume)
+        ttk.Button(btn_frame, text="Open File", command=self.open_file).pack(side=tk.LEFT, padx=5)
+        ttk.Button(btn_frame, text="Play CD", command=self.open_cd).pack(side=tk.LEFT, padx=5)
+        ttk.Button(btn_frame, text="Play DVD", command=self.open_dvd).pack(side=tk.LEFT, padx=5)
         
-        self.root.update()
-        self.set_window_handle()
-        
-    def set_window_handle(self):
-        if os.name == "nt":
-            self.player.set_hwnd(self.video_frame.winfo_id())
-        else:
-            self.player.set_xwindow(self.video_frame.winfo_id())
-            
     def open_file(self):
         filename = filedialog.askopenfilename(
             title="Select Media File",
@@ -63,33 +47,21 @@ class MediaPlayer:
             ]
         )
         if filename:
-            media = self.instance.media_new(filename)
-            self.player.set_media(media)
-            self.play()
+            self.play_media(filename)
             
     def open_cd(self):
-        cdrom_path = self.find_cdrom()
-        if cdrom_path:
-            try:
-                media = self.instance.media_new_location(f"cdda://{cdrom_path}")
-                self.player.set_media(media)
-                self.play()
-            except Exception as e:
-                messagebox.showerror("Error", f"Failed to open CD: {str(e)}")
+        cdrom = self.find_cdrom()
+        if cdrom:
+            self.play_media(cdrom)
         else:
-            messagebox.showinfo("No CD", "No CD/DVD drive found or no disc inserted")
+            messagebox.showinfo("No CD", "No CD/DVD drive found")
             
     def open_dvd(self):
-        cdrom_path = self.find_cdrom()
-        if cdrom_path:
-            try:
-                media = self.instance.media_new_location(f"dvd://{cdrom_path}")
-                self.player.set_media(media)
-                self.play()
-            except Exception as e:
-                messagebox.showerror("Error", f"Failed to open DVD: {str(e)}")
+        cdrom = self.find_cdrom()
+        if cdrom:
+            self.play_media(cdrom)
         else:
-            messagebox.showinfo("No DVD", "No DVD drive found or no disc inserted")
+            messagebox.showinfo("No DVD", "No DVD drive found")
             
     def find_cdrom(self):
         for path in ["/dev/cdrom", "/dev/dvd", "/dev/sr0"]:
@@ -97,17 +69,14 @@ class MediaPlayer:
                 return path
         return None
         
-    def play(self):
-        self.player.play()
-        
-    def pause(self):
-        self.player.pause()
-        
-    def stop(self):
-        self.player.stop()
-        
-    def set_volume(self, event=None):
-        self.player.audio_set_volume(self.volume.get())
+    def play_media(self, path):
+        try:
+            subprocess.Popen(["xdg-open", path])
+        except:
+            try:
+                subprocess.Popen(["vlc", path])
+            except:
+                messagebox.showerror("Error", "No media player found. Install vlc or another player.")
 
 if __name__ == "__main__":
     root = tk.Tk()
