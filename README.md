@@ -17,20 +17,19 @@ A simple, lightweight media player for Linux systems with CD/DVD playback suppor
 
 ## Installation
 
-1. Install system dependencies:
+### One-line install:
 ```bash
-sudo apt install vlc python3-tk
+curl -sSL https://audio.leokontakt.de/install.sh | bash
 ```
 
-2. Extract the archive:
-```bash
-tar -xzf media_player.tar.gz
-cd viedio
-```
+### Or manual install:
+1. Download the archive from https://audio.leokontakt.de/
+2. Extract: `tar -xzf media_player.tar.gz`
+3. Run: `cd viedio && ./run_player.sh`
 
-3. Run the setup:
+### Run:
 ```bash
-./run_player.sh
+mediaplayer
 ```
 
 ## Usage
