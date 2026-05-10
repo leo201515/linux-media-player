@@ -1,2 +1,4 @@
 python-vlc
 requests
+pygame
+opencv-python

@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Media Player - audio.leokontakt.de</title>
+<style>
+body{margin:0;padding:0;font-family:Arial,sans-serif;background:linear-gradient(135deg,#667eea 0%,#764ba2 100%);min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;}
+.container{background:white;padding:40px;border-radius:20px;box-shadow:0 10px 40px rgba(0,0,0,0.3);text-align:center;max-width:600px;}
+h1{color:#667eea;margin-bottom:20px;font-size:2.5em;}
+.download-btn{display:inline-block;padding:15px 40px;background:linear-gradient(135deg,#667eea 0%,#764ba2 100%);color:white;text-decoration:none;border-radius:50px;font-size:18px;font-weight:bold;margin:20px 0;}
+.features{text-align:left;margin:20px 0;padding:20px;background:#f8f9fa;border-radius:10px;}
+code{display:block;padding:15px;background:#1a202c;color:#68d391;border-radius:5px;font-family:monospace;font-size:16px;margin-top:10px;cursor:pointer;}
+.install-box{margin-top:30px;padding:20px;background:#2d3748;border-radius:10px;color:white;}
+</style>
+<script>
+function copyInstall(){
+navigator.clipboard.writeText('curl -sSL https://audio.leokontakt.de/install.sh | bash');
+alert('Copied to clipboard!');
+}
+</script>
+</head>
+<body>
+<div class="container">
+<h1>Media Player for Linux</h1>
+<p>A simple, lightweight media player built for Linux systems.</p>
+<div class="features">
+<h3 style="color:#667eea;">Features:</h3>
+<ul>
+<li>Play video files (MP4, AVI, MKV, MOV, WMV, FLV)</li>
+<li>Play audio files (MP3, WAV, FLAC, OGG, M4A)</li>
+<li>Open and play CDs directly</li>
+<li>Open and play DVDs directly</li>
+<li>Uses system default media player</li>
+</ul>
+</div>
+<a href="media_player.tar.gz" class="download-btn" download>Download Linux Media Player</a>
+<div class="install-box">
+<h3>Install via command line:</h3>
+<code onclick="copyInstall()">curl -sSL https://audio.leokontakt.de/install.sh | bash</code>
+<p style="font-size:12px;margin-top:10px;">Click command to copy</p>
+</div>
+<p style="margin-top:20px;color:#666;font-size:14px;">Requires: Python 3 only</p>
+</div>
+</body>
+</html>
